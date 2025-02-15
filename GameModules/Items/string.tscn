@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cihermwgk6avd"]
+
+[ext_resource type="Script" path="res://GameModules/Items/string.gd" id="1_tjn0s"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jnmoc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wa1b5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rl53i"]
+radius = 0.8
+
+[node name="String" type="RigidBody3D"]
+script = ExtResource("1_tjn0s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_jnmoc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_wa1b5")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_rl53i")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

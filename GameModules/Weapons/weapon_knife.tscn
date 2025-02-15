@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://rmn0e8wy2ras"]
+
+[ext_resource type="PackedScene" uid="uid://yc7xh0stglll" path="res://GameModules/Assets/Knife/weapon_knife.glb" id="1_aig58"]
+[ext_resource type="Script" path="res://GameModules/Weapons/knife.gd" id="2_jxqev"]
+
+[node name="weapon_knife" instance=ExtResource("1_aig58")]
+script = ExtResource("2_jxqev")

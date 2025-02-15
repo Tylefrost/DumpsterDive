@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MovementState" load_steps=2 format=3 uid="uid://cq387okliovb"]
+
+[ext_resource type="Script" path="res://GameModules/Player/Scripts/MovementState.gd" id="1_efdf3"]
+
+[resource]
+script = ExtResource("1_efdf3")
+id = 2
+movement_speed = 20.0
+acceleration = 5.0
+camera_fov = 85.0
+animation_speed = 2.0

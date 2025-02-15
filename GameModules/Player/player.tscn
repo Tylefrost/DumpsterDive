@@ -1,0 +1,396 @@
+[gd_scene load_steps=40 format=3 uid="uid://d0blpjq4pbbwj"]
+
+[ext_resource type="Script" path="res://GameModules/Player/Scripts/Player.gd" id="1_x1bot"]
+[ext_resource type="Script" path="res://GameModules/Player/Scripts/MovementState.gd" id="2_bt6vb"]
+[ext_resource type="Resource" uid="uid://cv7b837pffdru" path="res://GameModules/Player/MovementStates/stand.tres" id="3_rydie"]
+[ext_resource type="Resource" uid="uid://dmfvy66xyndba" path="res://GameModules/Player/MovementStates/walk.tres" id="4_kf70j"]
+[ext_resource type="Resource" uid="uid://cq387okliovb" path="res://GameModules/Player/MovementStates/sprint.tres" id="5_2tdyp"]
+[ext_resource type="Resource" uid="uid://3ie7woh18h2r" path="res://GameModules/Player/JumpStates/ground_jump.tres" id="6_2jsuc"]
+[ext_resource type="Script" path="res://GameModules/Player/Scripts/MovementController.gd" id="7_nl50d"]
+[ext_resource type="Script" path="res://GameModules/Player/Scripts/AnimationController.gd" id="8_6igbh"]
+[ext_resource type="PackedScene" uid="uid://dgeggr74g2w3" path="res://GameModules/Weapons/bow.tscn" id="8_fsh3y"]
+[ext_resource type="PackedScene" uid="uid://d0ipsb6gjrv76" path="res://GameModules/Assets/Racoon/raccoon.glb" id="9_1k1pp"]
+[ext_resource type="PackedScene" uid="uid://yc7xh0stglll" path="res://GameModules/Assets/Knife/weapon_knife.glb" id="10_6srtq"]
+[ext_resource type="Script" path="res://GameModules/Weapons/knife.gd" id="10_ffl1n"]
+[ext_resource type="Script" path="res://GameModules/Player/Scripts/CameraController.gd" id="11_811i2"]
+[ext_resource type="Texture2D" uid="uid://dairqkv1rcfbp" path="res://GameModules/Assets/light_meter_ui.svg" id="13_1c0ad"]
+
+[sub_resource type="Resource" id="Resource_7ntr7"]
+script = ExtResource("2_bt6vb")
+id = 2
+movement_speed = 8.0
+acceleration = 5.0
+camera_fov = 75.0
+animation_speed = 1.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lxu7a"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wn6pd"]
+animation = &"Melee_Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xd3ak"]
+animation = &"Ranged_Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_28gie"]
+animation = &"Jump"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ku7lm"]
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_d73lg"]
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_3oh8y"]
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_0822x"]
+xfade_time = 0.5
+allow_transition_to_self = true
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = true
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_axft3"]
+xfade_time = 0.5
+allow_transition_to_self = true
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = false
+input_1/name = "state_1"
+input_1/auto_advance = true
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_h5oi1"]
+xfade_time = 0.1
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = true
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_mfqu5"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kcc6o"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wh21p"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cu3bc"]
+animation = &"Dash"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vf5jk"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_87peh"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mcnbr"]
+animation = &"Dash"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_g7o86"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_kcc6o")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_wh21p")
+blend_point_1/pos = 1.0
+blend_point_2/node = SubResource("AnimationNodeAnimation_cu3bc")
+blend_point_2/pos = 2.0
+blend_point_3/node = SubResource("AnimationNodeAnimation_vf5jk")
+blend_point_3/pos = 0.0
+blend_point_4/node = SubResource("AnimationNodeAnimation_87peh")
+blend_point_4/pos = 1.0
+blend_point_5/node = SubResource("AnimationNodeAnimation_mcnbr")
+blend_point_5/pos = 2.0
+min_space = 0.0
+max_space = 2.0
+snap = 1.0
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_nhbfv"]
+graph_offset = Vector2(-739.086, -246)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_28gie")
+nodes/Animation/position = Vector2(-380, 320)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_wn6pd")
+"nodes/Animation 2/position" = Vector2(-220, 460)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_xd3ak")
+"nodes/Animation 3/position" = Vector2(140, 540)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_ku7lm")
+nodes/TimeScale/position = Vector2(0, 380)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_d73lg")
+nodes/TimeSeek/position = Vector2(-200, 260)
+nodes/TimeSeek_2/node = SubResource("AnimationNodeTimeSeek_3oh8y")
+nodes/TimeSeek_2/position = Vector2(360, 420)
+nodes/Transition/node = SubResource("AnimationNodeTransition_0822x")
+nodes/Transition/position = Vector2(-20, 140)
+nodes/Transition_2/node = SubResource("AnimationNodeTransition_axft3")
+nodes/Transition_2/position = Vector2(280, 200)
+nodes/Transition_3/node = SubResource("AnimationNodeTransition_h5oi1")
+nodes/Transition_3/position = Vector2(540, 220)
+nodes/movement_anim_speed/node = SubResource("AnimationNodeTimeScale_mfqu5")
+nodes/movement_anim_speed/position = Vector2(-300, 100)
+nodes/movement_blend/node = SubResource("AnimationNodeBlendSpace1D_g7o86")
+nodes/movement_blend/position = Vector2(-500, 100)
+nodes/output/position = Vector2(840, 300)
+node_connections = [&"TimeScale", 0, &"Animation 2", &"TimeSeek", 0, &"Animation", &"TimeSeek_2", 0, &"Animation 3", &"Transition", 0, &"movement_anim_speed", &"Transition", 1, &"TimeSeek", &"Transition_2", 0, &"Transition", &"Transition_2", 1, &"TimeScale", &"Transition_3", 0, &"Transition_2", &"Transition_3", 1, &"TimeSeek_2", &"movement_anim_speed", 0, &"movement_blend", &"output", 0, &"Transition_3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8mmxa"]
+radius = 0.07
+
+[sub_resource type="SphereMesh" id="SphereMesh_xchlk"]
+radius = 0.3
+height = 0.6
+radial_segments = 4
+rings = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8k5v5"]
+atlas = ExtResource("13_1c0ad")
+region = Rect2(0, 128.107, 256, 127.893)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_476yw"]
+atlas = ExtResource("13_1c0ad")
+region = Rect2(0, 0, 256, 128.122)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g5nn8"]
+radius = 2.0
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_x1bot")
+movement_states = {
+"run": SubResource("Resource_7ntr7"),
+"sprint": ExtResource("5_2tdyp"),
+"stand": ExtResource("3_rydie"),
+"walk": ExtResource("4_kf70j")
+}
+jump_states = {
+"ground_jump": ExtResource("6_2jsuc")
+}
+
+[node name="MovementController" type="Node" parent="." node_paths=PackedStringArray("player", "mesh_root")]
+script = ExtResource("7_nl50d")
+player = NodePath("..")
+mesh_root = NodePath("../MeshRoot")
+
+[node name="AnimationController" type="Node" parent="." node_paths=PackedStringArray("animation_tree", "player")]
+script = ExtResource("8_6igbh")
+animation_tree = NodePath("../MeshRoot/AnimationTree")
+player = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_lxu7a")
+
+[node name="MeshRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+
+[node name="raccoon" parent="MeshRoot" instance=ExtResource("9_1k1pp")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.877298, 0)
+
+[node name="Skeleton3D" parent="MeshRoot/raccoon/Raccoon" index="0"]
+bones/0/position = Vector3(25.5646, -16.3883, -155.511)
+bones/0/rotation = Quaternion(-0.672616, -0.312901, 0.347156, 0.573728)
+bones/1/rotation = Quaternion(0.0774903, 0.00429189, -0.0139426, 0.996886)
+bones/2/position = Vector3(-1.26243e-08, 42.4712, 1.97471e-06)
+bones/2/rotation = Quaternion(0.112794, 0.0143555, -0.0434757, 0.992563)
+bones/3/position = Vector3(-3.7339e-06, 48.5386, 3.70865e-06)
+bones/3/rotation = Quaternion(0.112802, 0.014409, -0.0434556, 0.992562)
+bones/4/position = Vector3(-4.66233e-06, 54.6059, -4.11502e-06)
+bones/4/rotation = Quaternion(0.00181113, 0.0258054, -0.00220441, 0.999663)
+bones/5/position = Vector3(7.488e-06, 38.9155, 0.626102)
+bones/5/rotation = Quaternion(-0.0671466, 0.385102, -0.0758049, 0.917301)
+bones/6/position = Vector3(4.66738e-07, 209.459, 3.36983)
+bones/7/position = Vector3(45.0309, 44.8301, 0.47554)
+bones/7/rotation = Quaternion(0.549249, 0.449208, -0.490574, 0.505842)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/position = Vector3(4.04316e-08, 91.9889, -5.78946e-06)
+bones/8/rotation = Quaternion(0.307934, -0.243746, -0.0527223, 0.918142)
+bones/9/position = Vector3(-1.01138e-05, 44.2218, -1.61095e-05)
+bones/9/rotation = Quaternion(-0.0509632, -0.223927, 0.829514, 0.509083)
+bones/10/position = Vector3(-2.58302e-05, 67.5714, -1.46785e-05)
+bones/10/rotation = Quaternion(0.0173691, -0.0793127, 0.0544603, 0.99521)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/position = Vector3(3.73153e-05, 31.8922, 7.32171e-06)
+bones/11/rotation = Quaternion(0.701608, 0.0933708, -0.107477, 0.698195)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/position = Vector3(1.02078e-07, 12.4968, 1.60832e-05)
+bones/12/rotation = Quaternion(0.799059, -0.0104986, -0.0285463, 0.600483)
+bones/13/position = Vector3(0.431728, 16.8445, -0.230869)
+bones/13/rotation = Quaternion(0.624945, -0.0670327, 0.0317055, 0.777139)
+bones/14/position = Vector3(1.01675, 5.43789, 0.185426)
+bones/15/position = Vector3(-45.0309, 44.9425, 2.35337)
+bones/15/rotation = Quaternion(0.716372, -0.357125, 0.359688, 0.479477)
+bones/16/position = Vector3(-6.96839e-06, 92.0569, -4.40242e-06)
+bones/16/rotation = Quaternion(0.0305351, 0.214158, -0.42428, 0.879312)
+bones/17/position = Vector3(2.95358e-06, 44.7342, -1.10794e-05)
+bones/17/rotation = Quaternion(-0.068051, 0.219811, -0.799864, 0.554319)
+bones/18/position = Vector3(3.42389e-05, 67.6026, -2.13817e-05)
+bones/18/rotation = Quaternion(0.0867849, 0.24626, -0.118338, 0.95803)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/position = Vector3(-7.46833e-07, 28.8509, -7.90005e-06)
+bones/19/rotation = Quaternion(0.704664, -0.0923219, 0.0835791, 0.698527)
+bones/20/position = Vector3(-2.50108e-05, 13.3763, 5.48771e-05)
+bones/20/rotation = Quaternion(0.793959, -0.00843369, 0.0152289, 0.607723)
+bones/21/position = Vector3(0.378234, 17.9582, -0.0443983)
+bones/21/rotation = Quaternion(0.676098, -0.0542224, 0.0540255, 0.732825)
+bones/22/position = Vector3(0.977648, 6.71583, -0.565579)
+bones/23/rotation = Quaternion(0.140334, 0.108922, 0.966684, -0.184295)
+bones/23/scale = Vector3(0.999998, 1, 1)
+bones/24/position = Vector3(1.40077e-05, 77.7754, 4.12956e-07)
+bones/24/rotation = Quaternion(-0.447215, 0.0373932, 0.0409076, 0.892708)
+bones/25/position = Vector3(1.69783e-05, 59.6147, -3.49931e-07)
+bones/25/rotation = Quaternion(0.660508, -0.0377278, -0.0848742, 0.745052)
+bones/25/scale = Vector3(1, 1, 1)
+bones/26/position = Vector3(1.10784e-05, 57.8541, 7.4572e-06)
+bones/26/rotation = Quaternion(0.289312, -0.112186, 0.035257, 0.949984)
+bones/27/position = Vector3(5.35648e-06, 33.6668, 6.24094e-07)
+bones/27/rotation = Quaternion(-4.93252e-07, -6.091e-07, 2.98489e-07, 1)
+bones/28/rotation = Quaternion(0.0119588, 0.226365, 0.941777, 0.248339)
+bones/28/scale = Vector3(1.00001, 1, 1)
+bones/29/position = Vector3(-2.83735e-06, 77.7991, 9.42928e-06)
+bones/29/rotation = Quaternion(-0.58223, -0.106727, -0.0985312, 0.799943)
+bones/29/scale = Vector3(1, 1, 1)
+bones/30/position = Vector3(2.54897e-06, 59.5339, -3.16317e-06)
+bones/30/rotation = Quaternion(0.740709, 0.0606778, 0.114702, 0.659175)
+bones/31/position = Vector3(3.88487e-06, 57.5209, -4.19079e-06)
+bones/31/rotation = Quaternion(0.288065, 0.112759, -0.0351215, 0.9503)
+bones/31/scale = Vector3(1, 1, 1)
+bones/32/position = Vector3(-8.05558e-07, 33.678, -2.45283e-07)
+bones/32/rotation = Quaternion(8.77306e-07, -5.75092e-07, -9.2492e-08, 1)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="MeshRoot/raccoon/Raccoon/Skeleton3D" index="2"]
+transform = Transform3D(-0.00992212, 0.317566, 0.948185, -0.82871, 0.528036, -0.185522, -0.559591, -0.78761, 0.25793, -131.581, -16.6688, -305.768)
+bone_name = "mixamorig_RightHand"
+bone_idx = 18
+
+[node name="Knife" type="Node3D" parent="MeshRoot/raccoon/Raccoon/Skeleton3D/BoneAttachment3D"]
+script = ExtResource("10_ffl1n")
+
+[node name="weapon_knife" parent="MeshRoot/raccoon/Raccoon/Skeleton3D/BoneAttachment3D/Knife" instance=ExtResource("10_6srtq")]
+transform = Transform3D(-20.791, -44.4017, -9.80941, 45.3711, -19.5369, -7.73177, 3.03321, -12.1163, 48.4149, -71.7333, -8.64996, -8.362)
+visible = false
+
+[node name="BoneAttachment3D2" type="BoneAttachment3D" parent="MeshRoot/raccoon/Raccoon/Skeleton3D" index="3"]
+transform = Transform3D(-0.0413526, -0.571819, -0.819337, 0.648559, 0.608434, -0.457362, 0.760041, -0.550301, 0.345698, 69.6457, 172.72, -299.888)
+bone_name = "mixamorig_LeftHand"
+bone_idx = 10
+
+[node name="Bow" parent="MeshRoot/raccoon/Raccoon/Skeleton3D/BoneAttachment3D2" instance=ExtResource("8_fsh3y")]
+transform = Transform3D(-103.786, 205.457, 97.5505, 94.7727, -58.4079, 223.845, 206.753, 129.908, -53.6392, -95.2352, -85.1385, 22.5181)
+
+[node name="AnimationTree" type="AnimationTree" parent="MeshRoot"]
+root_node = NodePath("../raccoon")
+tree_root = SubResource("AnimationNodeBlendTree_nhbfv")
+anim_player = NodePath("../raccoon/AnimationPlayer")
+parameters/TimeScale/scale = 2.0
+parameters/TimeSeek/seek_request = -1.0
+parameters/TimeSeek_2/seek_request = -1.0
+parameters/Transition/current_state = "state_0"
+parameters/Transition/transition_request = ""
+parameters/Transition/current_index = 0
+parameters/Transition_2/current_state = "state_0"
+parameters/Transition_2/transition_request = ""
+parameters/Transition_2/current_index = 0
+parameters/Transition_3/current_state = "state_0"
+parameters/Transition_3/transition_request = ""
+parameters/Transition_3/current_index = 0
+parameters/movement_anim_speed/scale = 1.0
+parameters/movement_blend/blend_position = 0.02118
+
+[node name="CamRoot" type="Node3D" parent="."]
+script = ExtResource("11_811i2")
+
+[node name="CamYaw" type="Node3D" parent="CamRoot"]
+
+[node name="CamPitch" type="Node3D" parent="CamRoot/CamYaw"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamRoot/CamYaw/CamPitch"]
+shape = SubResource("SphereShape3D_8mmxa")
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="CamRoot/CamYaw/CamPitch/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.881143, 5.42526)
+cull_mask = 1
+current = true
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="LightDetection" type="Node3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66437, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport/LightDetection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+layers = 2
+mesh = SubResource("SphereMesh_xchlk")
+skeleton = NodePath("../../../MeshRoot")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport/LightDetection"]
+transform = Transform3D(0.707107, -0.707107, -3.09086e-08, 0, -4.37114e-08, 1, -0.707107, -0.707107, -3.09086e-08, 0, 1, 0)
+cull_mask = 2
+current = true
+fov = 35.0
+
+[node name="LightLevel" type="TextureProgressBar" parent="."]
+z_index = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -126.0
+offset_top = -137.0
+offset_right = 130.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 1.0
+step = 2.08165e-12
+value = 0.25
+fill_mode = 7
+texture_under = SubResource("AtlasTexture_8k5v5")
+texture_progress = SubResource("AtlasTexture_476yw")
+tint_under = Color(1, 1, 1, 0.777)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+expand_mode = 1
+
+[node name="PlayerHitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.988088, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerHitbox"]
+shape = SubResource("SphereShape3D_g5nn8")
+
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="EnemyAttackCooldown" type="Timer" parent="."]
+wait_time = 1.25
+
+[node name="BowCooldown" type="Timer" parent="."]
+
+[node name="WaitRegen" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="bow_equip" from="." to="MeshRoot/raccoon/Raccoon/Skeleton3D/BoneAttachment3D2/Bow" method="_on_player_bow_equip"]
+[connection signal="bow_unequip" from="." to="MeshRoot/raccoon/Raccoon/Skeleton3D/BoneAttachment3D2/Bow" method="_on_player_bow_unequip"]
+[connection signal="knife_equip" from="." to="MeshRoot/raccoon/Raccoon/Skeleton3D/BoneAttachment3D/Knife" method="_on_player_knife_equip"]
+[connection signal="knife_unequip" from="." to="MeshRoot/raccoon/Raccoon/Skeleton3D/BoneAttachment3D/Knife" method="_on_player_knife_unequip"]
+[connection signal="pressed_jump" from="." to="MovementController" method="_jump"]
+[connection signal="pressed_jump" from="." to="AnimationController" method="_on_player_pressed_jump"]
+[connection signal="set_movement_direction" from="." to="MovementController" method="_on_set_movement_direction"]
+[connection signal="set_movement_state" from="." to="MovementController" method="_on_set_movement_state"]
+[connection signal="set_movement_state" from="." to="AnimationController" method="_on_player_set_movement_state"]
+[connection signal="set_cam_rotation" from="CamRoot" to="MovementController" method="_on_set_cam_rotation"]
+[connection signal="body_entered" from="PlayerHitbox" to="." method="_on_player_hitbox_body_entered"]
+[connection signal="body_exited" from="PlayerHitbox" to="." method="_on_player_hitbox_body_exited"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="EnemyAttackCooldown" to="." method="_on_enemy_attack_cooldown_timeout"]
+[connection signal="timeout" from="BowCooldown" to="." method="_on_bow_cooldown_timeout"]
+[connection signal="timeout" from="WaitRegen" to="." method="_on_wait_regen_timeout"]
+
+[editable path="MeshRoot/raccoon"]

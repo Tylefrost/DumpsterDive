@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MovementState" load_steps=2 format=3 uid="uid://dmfvy66xyndba"]
+
+[ext_resource type="Script" path="res://GameModules/Player/Scripts/MovementState.gd" id="1_leljc"]
+
+[resource]
+script = ExtResource("1_leljc")
+id = 1
+movement_speed = 8.0
+acceleration = 5.0
+camera_fov = 75.0
+animation_speed = 1.0

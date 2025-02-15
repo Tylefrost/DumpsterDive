@@ -1,0 +1,153 @@
+[gd_scene load_steps=16 format=3 uid="uid://dgd1jn1ijeex0"]
+
+[ext_resource type="Script" path="res://GameModules/Enemy/wallet_enemy.gd" id="1_gk8fd"]
+[ext_resource type="PackedScene" uid="uid://clik1yy0wwv7c" path="res://GameModules/Assets/Wallet/wallet.glb" id="2_jkyu0"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1yby1"]
+animation = &"Wallet_Movement"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_56mha"]
+animation = &"Wallet_Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mkbpx"]
+animation = &"Wallet_Recoil"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jqtac"]
+animation = &"Wallet_Death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iv8x1"]
+animation = &"Wallet_Idle"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_gfvwv"]
+xfade_time = 1.0
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_om4d1"]
+xfade_time = 1.0
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_5f6dv"]
+xfade_time = 1.0
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_jedei"]
+xfade_time = 1.0
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_pbxpo"]
+graph_offset = Vector2(-278.686, 51.1461)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_iv8x1")
+nodes/Animation/position = Vector2(440, 100)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_1yby1")
+"nodes/Animation 2/position" = Vector2(380, 260)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_56mha")
+"nodes/Animation 3/position" = Vector2(620, 340)
+"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_mkbpx")
+"nodes/Animation 4/position" = Vector2(820, 400)
+"nodes/Animation 5/node" = SubResource("AnimationNodeAnimation_jqtac")
+"nodes/Animation 5/position" = Vector2(1000, 460)
+nodes/Transition/node = SubResource("AnimationNodeTransition_gfvwv")
+nodes/Transition/position = Vector2(640, 120)
+nodes/Transition_2/node = SubResource("AnimationNodeTransition_om4d1")
+nodes/Transition_2/position = Vector2(820, 180)
+nodes/Transition_3/node = SubResource("AnimationNodeTransition_5f6dv")
+nodes/Transition_3/position = Vector2(1000, 220)
+nodes/Transition_4/node = SubResource("AnimationNodeTransition_jedei")
+nodes/Transition_4/position = Vector2(1160, 280)
+nodes/output/position = Vector2(1360, 340)
+node_connections = [&"Transition", 0, &"Animation", &"Transition", 1, &"Animation 2", &"Transition_2", 0, &"Transition", &"Transition_2", 1, &"Animation 3", &"Transition_3", 0, &"Transition_2", &"Transition_3", 1, &"Animation 4", &"Transition_4", 0, &"Transition_3", &"Transition_4", 1, &"Animation 5", &"output", 0, &"Transition_4"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yv0bp"]
+radius = 8.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_smuwh"]
+size = Vector3(1, 0.5, 1.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sqsoc"]
+radius = 2.0
+
+[node name="WalletEnemy" type="CharacterBody3D"]
+script = ExtResource("1_gk8fd")
+
+[node name="MeshRoot" type="Node3D" parent="."]
+
+[node name="wallet" parent="MeshRoot" instance=ExtResource("2_jkyu0")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0)
+
+[node name="Skeleton3D" parent="MeshRoot/wallet/Wallet" index="0"]
+bones/0/position = Vector3(1.13687e-13, 0.410076, -1.22064)
+bones/0/rotation = Quaternion(0.648568, 6.35158e-07, 5.41207e-07, 0.761156)
+bones/1/position = Vector3(2.84217e-14, 0.410076, -1.22064)
+bones/1/rotation = Quaternion(8.41225e-07, 0.680734, 0.73253, 7.81743e-07)
+bones/1/scale = Vector3(1, 1, 0.999993)
+
+[node name="AnimationTree" type="AnimationTree" parent="MeshRoot"]
+root_node = NodePath("../wallet")
+tree_root = SubResource("AnimationNodeBlendTree_pbxpo")
+anim_player = NodePath("../wallet/AnimationPlayer")
+parameters/Transition/current_state = "state_0"
+parameters/Transition/transition_request = ""
+parameters/Transition/current_index = 0
+parameters/Transition_2/current_state = "state_0"
+parameters/Transition_2/transition_request = ""
+parameters/Transition_2/current_index = 0
+parameters/Transition_3/current_state = "state_0"
+parameters/Transition_3/transition_request = ""
+parameters/Transition_3/current_index = 0
+parameters/Transition_4/current_state = "state_0"
+parameters/Transition_4/transition_request = ""
+parameters/Transition_4/current_index = 0
+
+[node name="DetectionArea" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Detect" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_yv0bp")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.305415, 0)
+shape = SubResource("BoxShape3D_smuwh")
+
+[node name="EnemyHitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyHitbox"]
+shape = SubResource("SphereShape3D_sqsoc")
+
+[node name="TakeDamageCooldown" type="Timer" parent="."]
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="EnemyHitbox" to="." method="_on_enemy_hitbox_body_entered"]
+[connection signal="body_exited" from="EnemyHitbox" to="." method="_on_enemy_hitbox_body_exited"]
+[connection signal="timeout" from="TakeDamageCooldown" to="." method="_on_take_damage_cooldown_timeout"]
+
+[editable path="MeshRoot/wallet"]

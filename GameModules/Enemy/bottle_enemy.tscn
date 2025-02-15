@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7qwtaova4xlo"]
+
+[ext_resource type="Script" path="res://GameModules/Enemy/bottle_enemy.gd" id="1_jhamy"]
+[ext_resource type="PackedScene" uid="uid://dgeggr74g2w3" path="res://GameModules/Weapons/bow.tscn" id="2_eb3fh"]
+[ext_resource type="PackedScene" uid="uid://ck4mtv8wk77vx" path="res://GameModules/Assets/Bottle/bottle.glb" id="3_irdgj"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yv0bp"]
+radius = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_unho3"]
+height = 1.93147
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sqsoc"]
+radius = 1.5
+
+[node name="BottleEnemy" type="CharacterBody3D"]
+script = ExtResource("1_jhamy")
+
+[node name="MeshRoot" type="Node3D" parent="."]
+
+[node name="Bow" parent="MeshRoot" instance=ExtResource("2_eb3fh")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="bottle" parent="MeshRoot" instance=ExtResource("3_irdgj")]
+transform = Transform3D(-0.2, 0, -1.74846e-08, 0, 0.2, 0, 1.74846e-08, 0, -0.2, 0, 0, 0)
+
+[node name="DetectionArea" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Detect" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_yv0bp")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_unho3")
+
+[node name="EnemyHitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyHitbox"]
+shape = SubResource("SphereShape3D_sqsoc")
+
+[node name="TakeDamageCooldown" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="EnemyHitbox" to="." method="_on_enemy_hitbox_body_entered"]
+[connection signal="body_exited" from="EnemyHitbox" to="." method="_on_enemy_hitbox_body_exited"]
+[connection signal="timeout" from="TakeDamageCooldown" to="." method="_on_take_damage_cooldown_timeout"]

@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjlxbbgixdubf"]
+
+[ext_resource type="PackedScene" uid="uid://d0blpjq4pbbwj" path="res://GameModules/Player/player.tscn" id="1_vc2cd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e5c7m"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_dipkp"]
+sky_material = SubResource("ProceduralSkyMaterial_e5c7m")
+
+[sub_resource type="Environment" id="Environment_hf8lx"]
+background_mode = 2
+sky = SubResource("Sky_dipkp")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="MainScene" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+layers = 17
+light_energy = 2.13
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hf8lx")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+layers = 3
+use_collision = true
+size = Vector3(1000, 1, 1000)
+
+[node name="Wall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87049, -1.19726)
+layers = 3
+use_collision = true
+size = Vector3(9, 3, 9)
+
+[node name="Player" parent="." instance=ExtResource("1_vc2cd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4.82)
+collision_layer = 3
+
+[node name="HealthBar" type="ProgressBar" parent="Player"]
+modulate = Color(0.917647, 0, 0.0627451, 1)
+self_modulate = Color(0.917647, 0, 0.0627451, 1)
+top_level = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -76.0
+offset_top = 100.0
+offset_right = 78.0
+offset_bottom = 120.0
+grow_horizontal = 2
+max_value = 130.0
+value = 50.0
+show_percentage = false
+
+[node name="BowCooldownBar" type="ProgressBar" parent="Player"]
+modulate = Color(2.31028e-06, 0.913646, 0.913646, 1)
+self_modulate = Color(0, 0.913725, 0.913725, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1081.0
+offset_top = 633.0
+offset_right = 51.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 4.71239
+max_value = 2.0
+value = 0.25
+show_percentage = false

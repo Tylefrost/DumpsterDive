@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4pdx3aq606ws"]
+
+[ext_resource type="Script" path="res://GameModules/Items/wire.gd" id="1_6ro0w"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jnmoc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5wjar"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_iaf7n"]
+radius = 0.8
+
+[node name="Wire" type="RigidBody3D"]
+script = ExtResource("1_6ro0w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_jnmoc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_5wjar")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_iaf7n")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

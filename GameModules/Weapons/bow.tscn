@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgeggr74g2w3"]
+
+[ext_resource type="Script" path="res://GameModules/Weapons/bow.gd" id="1_wqbsy"]
+[ext_resource type="PackedScene" uid="uid://du2tvd50ckxqn" path="res://GameModules/Assets/Bow/weapon_bow.glb" id="2_13jo2"]
+
+[node name="Bow" type="Node3D"]
+script = ExtResource("1_wqbsy")
+
+[node name="weapon_bow" parent="." instance=ExtResource("2_13jo2")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+visible = false
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.740598)
+target_position = Vector3(0, 0, 1)

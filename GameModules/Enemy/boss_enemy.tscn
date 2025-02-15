@@ -1,0 +1,168 @@
+[gd_scene load_steps=17 format=3 uid="uid://b0kalcjj37u35"]
+
+[ext_resource type="Script" path="res://GameModules/Enemy/boss_enemy.gd" id="1_a6gwd"]
+[ext_resource type="PackedScene" uid="uid://b358pfv7kakf3" path="res://GameModules/Assets/Boss/boss.glb" id="2_mum56"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mxeww"]
+animation = &"Boss_Recoil"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gl0t2"]
+animation = &"Boss_Death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6oxxq"]
+animation = &"Boss_Movement"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wgf47"]
+animation = &"Boss_Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vcdo2"]
+animation = &"Boss_Attack"
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_v7jwb"]
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_arkci"]
+xfade_time = 1.0
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_75rra"]
+xfade_time = 1.0
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = true
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_r2fvf"]
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = true
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_ow1la"]
+xfade_time = 1.0
+input_0/name = "state_0"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "state_1"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_hh17u"]
+graph_offset = Vector2(-138.222, 106.248)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_vcdo2")
+nodes/Animation/position = Vector2(380, 480)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_mxeww")
+"nodes/Animation 2/position" = Vector2(740, 480)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_gl0t2")
+"nodes/Animation 3/position" = Vector2(969.551, 546.083)
+"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_6oxxq")
+"nodes/Animation 4/position" = Vector2(220, 360)
+"nodes/Animation 5/node" = SubResource("AnimationNodeAnimation_wgf47")
+"nodes/Animation 5/position" = Vector2(200, 220)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_v7jwb")
+nodes/TimeSeek/position = Vector2(560, 400)
+nodes/Transition/node = SubResource("AnimationNodeTransition_arkci")
+nodes/Transition/position = Vector2(460, 200)
+nodes/Transition_2/node = SubResource("AnimationNodeTransition_75rra")
+nodes/Transition_2/position = Vector2(720, 200)
+nodes/Transition_3/node = SubResource("AnimationNodeTransition_r2fvf")
+nodes/Transition_3/position = Vector2(920, 260)
+nodes/Transition_4/node = SubResource("AnimationNodeTransition_ow1la")
+nodes/Transition_4/position = Vector2(1120, 300)
+nodes/output/position = Vector2(1300, 260)
+node_connections = [&"TimeSeek", 0, &"Animation", &"Transition", 0, &"Animation 5", &"Transition", 1, &"Animation 4", &"Transition_2", 0, &"Transition", &"Transition_2", 1, &"TimeSeek", &"Transition_3", 0, &"Transition_2", &"Transition_3", 1, &"Animation 2", &"Transition_4", 0, &"Transition_3", &"Transition_4", 1, &"Animation 3", &"output", 0, &"Transition_4"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yv0bp"]
+radius = 15.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_unho3"]
+radius = 2.0
+height = 5.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sqsoc"]
+radius = 2.0
+
+[node name="BossEnemy" type="CharacterBody3D"]
+script = ExtResource("1_a6gwd")
+
+[node name="MeshRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="boss" parent="MeshRoot" instance=ExtResource("2_mum56")]
+transform = Transform3D(-0.4, 0, -3.49691e-08, 0, 0.4, 0, 3.49691e-08, 0, -0.4, 0, 0, 0)
+
+[node name="Skeleton3D" parent="MeshRoot/boss/Armature" index="0"]
+bones/0/position = Vector3(0, -0.000967533, 0)
+bones/0/rotation = Quaternion(-2.98023e-08, 1.19209e-07, -2.11758e-22, 1)
+bones/2/position = Vector3(1.25453e-13, 3.72506, 1.92134)
+bones/3/position = Vector3(-7.21158e-14, 3.72506, 1.92134)
+bones/3/rotation = Quaternion(1.6151e-07, 0.557884, 0.829919, 1.08744e-07)
+bones/4/position = Vector3(2.66696, 4.03966, 0.265923)
+bones/4/rotation = Quaternion(-1.46285e-07, -9.88321e-08, 0.865841, -0.500319)
+bones/5/rotation = Quaternion(0.441906, -3.19266e-08, 0.0104284, 0.897001)
+bones/6/position = Vector3(-2.3149, 3.87135, 0.265923)
+bones/6/rotation = Quaternion(-5.41809e-08, 4.05875e-08, 0.825233, 0.564793)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(-2.66925e-08, -2.66925e-08, -0.707107, 0.707107)
+bones/9/rotation = Quaternion(-2.66925e-08, 2.66925e-08, 0.707107, 0.707107)
+
+[node name="AnimationTree" type="AnimationTree" parent="MeshRoot"]
+root_node = NodePath("../boss")
+tree_root = SubResource("AnimationNodeBlendTree_hh17u")
+anim_player = NodePath("../boss/AnimationPlayer")
+parameters/TimeSeek/seek_request = -1.0
+parameters/Transition/current_state = "state_0"
+parameters/Transition/transition_request = ""
+parameters/Transition/current_index = 0
+parameters/Transition_2/current_state = "state_0"
+parameters/Transition_2/transition_request = ""
+parameters/Transition_2/current_index = 0
+parameters/Transition_3/current_state = "state_0"
+parameters/Transition_3/transition_request = ""
+parameters/Transition_3/current_index = 0
+parameters/Transition_4/current_state = "state_0"
+parameters/Transition_4/transition_request = ""
+parameters/Transition_4/current_index = 0
+
+[node name="DetectionArea" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Detect" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_yv0bp")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_unho3")
+
+[node name="EnemyHitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyHitbox"]
+shape = SubResource("SphereShape3D_sqsoc")
+
+[node name="TakeDamageCooldown" type="Timer" parent="."]
+wait_time = 1.25
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="EnemyHitbox" to="." method="_on_enemy_hitbox_body_entered"]
+[connection signal="body_exited" from="EnemyHitbox" to="." method="_on_enemy_hitbox_body_exited"]
+[connection signal="timeout" from="TakeDamageCooldown" to="." method="_on_take_damage_cooldown_timeout"]
+
+[editable path="MeshRoot/boss"]
